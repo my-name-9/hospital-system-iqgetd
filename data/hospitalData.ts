@@ -1,6 +1,14 @@
 
 import { Doctor, Department, Appointment, Patient } from '../types/hospital';
 
+export const hospitalInfo = {
+  name: 'Bulbul Hospital',
+  address: '123 Medical Center Drive, Healthcare City',
+  phone: '+1 (555) 123-BULB',
+  email: 'info@bulbulhospital.com',
+  website: 'www.bulbulhospital.com',
+};
+
 export const doctors: Doctor[] = [
   {
     id: '1',

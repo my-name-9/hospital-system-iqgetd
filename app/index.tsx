@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { commonStyles, colors } from '../styles/commonStyles';
-import { doctors, departments, appointments } from '../data/hospitalData';
+import { doctors, departments, appointments, hospitalInfo } from '../data/hospitalData';
 import BottomTabBar from '../components/BottomTabBar';
 import DoctorCard from '../components/DoctorCard';
 import DepartmentCard from '../components/DepartmentCard';
@@ -15,15 +15,21 @@ export default function HospitalApp() {
 
   const renderHomeScreen = () => (
     <ScrollView style={commonStyles.content} showsVerticalScrollIndicator={false}>
-      {/* Header */}
-      <View style={commonStyles.header}>
-        <View>
-          <Text style={styles.greeting}>Good Morning</Text>
-          <Text style={commonStyles.title}>John Doe</Text>
+      {/* Hospital Header */}
+      <View style={styles.hospitalHeader}>
+        <View style={styles.hospitalInfo}>
+          <Text style={styles.hospitalName}>{hospitalInfo.name}</Text>
+          <Text style={styles.hospitalSubtitle}>Your Health, Our Priority</Text>
         </View>
         <TouchableOpacity style={styles.notificationButton}>
           <Icon name="notifications" size={24} color={colors.text} />
         </TouchableOpacity>
+      </View>
+
+      {/* User Greeting */}
+      <View style={styles.greetingSection}>
+        <Text style={styles.greeting}>Good Morning</Text>
+        <Text style={styles.userName}>John Doe</Text>
       </View>
 
       {/* Quick Stats */}
@@ -105,7 +111,10 @@ export default function HospitalApp() {
   const renderDoctorsScreen = () => (
     <View style={commonStyles.content}>
       <View style={commonStyles.header}>
-        <Text style={commonStyles.title}>Doctors</Text>
+        <View>
+          <Text style={commonStyles.title}>Doctors</Text>
+          <Text style={styles.screenSubtitle}>at {hospitalInfo.name}</Text>
+        </View>
         <TouchableOpacity>
           <Icon name="search" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -127,7 +136,10 @@ export default function HospitalApp() {
   const renderAppointmentsScreen = () => (
     <View style={commonStyles.content}>
       <View style={commonStyles.header}>
-        <Text style={commonStyles.title}>Appointments</Text>
+        <View>
+          <Text style={commonStyles.title}>Appointments</Text>
+          <Text style={styles.screenSubtitle}>at {hospitalInfo.name}</Text>
+        </View>
         <TouchableOpacity>
           <Icon name="add" size={24} color={colors.text} />
         </TouchableOpacity>
@@ -164,6 +176,7 @@ export default function HospitalApp() {
             <Text style={styles.profileInfo}>Age: 35 • Blood Group: O+</Text>
             <Text style={styles.profileContact}>john.doe@email.com</Text>
             <Text style={styles.profileContact}>+1 (555) 123-4567</Text>
+            <Text style={styles.hospitalTag}>Patient at {hospitalInfo.name}</Text>
           </View>
 
           <View style={styles.profileSection}>
@@ -190,6 +203,24 @@ export default function HospitalApp() {
               <View style={styles.infoRow}>
                 <Text style={styles.infoLabel}>Phone:</Text>
                 <Text style={styles.infoValue}>+1 (555) 987-6543</Text>
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.profileSection}>
+            <Text style={[commonStyles.subtitle, { marginBottom: 12 }]}>Hospital Information</Text>
+            <View style={commonStyles.card}>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Hospital:</Text>
+                <Text style={styles.infoValue}>{hospitalInfo.name}</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Address:</Text>
+                <Text style={styles.infoValue}>{hospitalInfo.address}</Text>
+              </View>
+              <View style={styles.infoRow}>
+                <Text style={styles.infoLabel}>Phone:</Text>
+                <Text style={styles.infoValue}>{hospitalInfo.phone}</Text>
               </View>
             </View>
           </View>
@@ -222,10 +253,46 @@ export default function HospitalApp() {
 }
 
 const styles = StyleSheet.create({
+  hospitalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 12,
+  },
+  hospitalInfo: {
+    flex: 1,
+  },
+  hospitalName: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: colors.primary,
+    marginBottom: 2,
+  },
+  hospitalSubtitle: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    fontStyle: 'italic',
+  },
+  greetingSection: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
   greeting: {
     fontSize: 14,
     color: colors.textSecondary,
     marginBottom: 4,
+  },
+  userName: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  screenSubtitle: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    marginTop: 2,
   },
   notificationButton: {
     width: 40,
@@ -315,6 +382,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
     marginBottom: 2,
+  },
+  hospitalTag: {
+    fontSize: 12,
+    color: colors.primary,
+    marginTop: 8,
+    fontWeight: '500',
   },
   profileSection: {
     marginTop: 24,
